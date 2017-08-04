@@ -1,4 +1,4 @@
-//ejercicio 008
+//ejercicio 008//
 
 function recibirString(string){
 
