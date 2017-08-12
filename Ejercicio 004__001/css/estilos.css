@@ -1,0 +1,95 @@
+body {
+
+    align-content: center;
+    width: 980px;
+    margin: 0 auto;
+    background: transparent;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background: -webkit-linear-gradient(top, #c8c9cd, white);
+}
+
+
+select {
+    margin-top: 0px;
+    background-color: #585858;
+    color: white;
+}
+
+.html {
+
+    height: 2000px;
+    background: -webkit-linear-gradient(top, #c8c9cd, white);
+}
+
+.articulo {
+    border-style: outset;
+    margin-top: 8px;
+    position: relative;
+    margin-right: 2.5%;
+    min-height: 240px;
+}
+
+.g {
+	margin-top: 8px;
+    border: 1px solid #aaa;
+    height: 28px;
+    background: url(http://la.nvidia.com/content/includes/redesign2010/images/redesign10/subfeature_header_gradient.gif)repeat;
+}
+
+.n {
+margin-top: 8px;
+    width: 720px;
+    margin-right: 100px;
+     border: 1px solid #aaa;
+    height: 28px;
+    background: url(http://la.nvidia.com/content/includes/redesign2010/images/redesign10/subfeature_header_gradient.gif)repeat;
+}
+
+.bannerNvidia {
+
+    background-color: #2E2E2E;
+    height: 35px;
+    color: white;
+    background-color: #494949;
+    padding-left: 15px;
+    max-height: 35px;
+    background: url(http://la.nvidia.com/content/includes/redesign2010/images/redesign10/newsticker_background.jpg);
+}
+
+
+.logo {
+
+    background-color: black;
+}
+
+h5 {
+    color: grey;
+}
+
+.articulo img {
+
+    width: 100%;
+    height: auto;
+}
+
+h4 {
+
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.texto1banner {
+
+    color: #76b900;
+    max-width: 150px;
+    display: inline-block;
+}
+
+.link {
+    color: white;
+}
+
+.link:hover {
+    color: white;
+    text-decoration: none;
+}
