@@ -117,8 +117,8 @@ class Guerra {
     }
 
     iniciarGuerra() {
-        let ref = this;
-        let intervalID = setInterval(function() { ref.ejecutarJornadaDeGuerra(intervalID); }, 1000);
+      
+        let intervalID = setInterval(() =>this.ejecutarJornadaDeGuerra(intervalID), 1000);
     }
 
     ataqueEjercito(ejercito1, ejercito2, intervalID) {
