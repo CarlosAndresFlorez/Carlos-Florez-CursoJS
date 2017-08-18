@@ -6,11 +6,11 @@ class PokemonesApiClient {
 
     }
 
-    getPokemonesAtPage() {
+    getPokemonesAtPage(indice) {
 
-        
-        let completeUrl = this._baseURL;
-        let promise = this._apliClient.get(completeUrl, null);
+
+        this._baseURL=indice;
+        let promise = this._apliClient.get(this._baseURL, null);
         let anotherPromise = promise.then((data) => {
             let resultados = data.results;
             console.log(resultados);
