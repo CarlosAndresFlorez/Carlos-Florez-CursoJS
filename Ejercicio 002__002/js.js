@@ -104,7 +104,7 @@ Batalla.prototype.iniciarPelea = function() {
         this._vikingo1._dinero = this._vikingo1._dinero + this._vikingo2._dinero;
         this._vikingo2._dinero = 0;
 
-        for (indice in this._vikingo2._armas) {
+        for (indice in ithis._vikingo2._armas) {
 
             this._vikingo1._armas.push(this._vikingo2._armas[indice]);
             this._vikingo2._armas.splice(indice, 1);

@@ -1,110 +1,19 @@
-function Biblioteca() {
-    this._nombre = "Biblioteca Bogotá";
-    this._secciones = [];
-    this._socios = [];
-}
-
-
-function Libro() {
-    this._nombre = generarNombreLibroAleatorio();
+function Libro(tematica, nombre) {
+    this._nombre = nombre;
     this._numeroDePaginas = generarNumeroAleatorio(0, 1000);
     this._autor = generarNombreAutorAleatorio();
-    this._tematica = biblioteca.dameSeccionAleatoria();
+    this._tematica = tematica;
 }
 
 
 
 function Seccion(nombre) {
     this._nombre = nombre;
-    this._libros =[];
-
-}
-
-
-function Socio() {
-    this._nombre = generarNombreSocioAleatorio();
-    this._numeroDeSocio = generarNumeroAleatorio(1, 100);
     this._libros = [];
-}
-
-Socio.prototype.ejecutarCiclo = function() {
-
 
 }
-
-
-Biblioteca.prototype.dameLibroAleatorio = function() {
-
-    var numeroLibrosAPrestar = generarNumeroAleatorio(1, 3);
-
-    for (var i = 0; i <= numeroLibrosAPrestar;i++) {
-        var seccionAleatoria = dameSeccionAleatoria();
-
-        var indiceAleatorioLib = generarNumeroAleatorio(0, seccionAleatoria._libros.length - 1);
-        var libro = seccionAleatoria._libros[indiceAleatorioLib];
-
-        for (socio in this._socios) {
-            this._socios[socio]._libros.push[libro];
-        }
-
-    }
-
-
-}
-
-Biblioteca.prototype.devolverLibro = function() {
-
-
-}
-Biblioteca.prototype.dameSeccionAleatoria = function() {
-
-    var indiceAleatorio = generarNumeroAleatorio(0, this._secciones.length - 1);
-    var seccion = this._secciones[indiceAleatorio]._nombre;
-    return seccion;
-}
-
-
-Seccion.prototype.añadirLibro = function(numeroLibros) {
-    for (var i = 0; i < numeroLibros; i++) {
-        var libro = new Libro();
-        this._libros.push(libro);
-
-    }
-
-}
-
-
-Biblioteca.prototype.inicializarBiblioteca = function() {
-
-    biblioteca._secciones.push("Amor");
-    biblioteca._secciones.push("Aventuras");
-    biblioteca._secciones.push("Naturaleza");
-    biblioteca._secciones.push("Historia");
-    biblioteca._secciones.push("Viajes");
-
-}
-
-
-Biblioteca.prototype.insertarSociosAleatoriamente = function(numeroSocios) {
-    for (var i = 0; i < numeroSocios; i++) {
-        var socio = new Socio();
-        biblioteca._socios.push(socio);
-
-    }
-
-}
-
-
-
 
 //Funciones auxiliares
-
-function generarNombreLibroAleatorio() {
-    var nombresLibros = ["La Caperucita", "JavaScript Básico", "JavaScript Avanzado", "100 años de soledad", "El Capitán no tiene quien le escriba", "Mobby Dick"];
-    var indice = generarNumeroAleatorio(0, nombresLibros.length - 1);
-
-    return nombresLibros[indice];
-}
 
 
 function generarNombreSocioAleatorio() {
@@ -130,12 +39,177 @@ function generarNombreAutorAleatorio() {
     return nombresAutor[indice];
 }
 
+//fin funciones auxiliares
+function Biblioteca(nombre) {
+    this._nombre = nombre;
+    this._secciones = [];
+    this._socios = [];
+}
 
-biblioteca = new Biblioteca();
-seccion = new Seccion();
+Biblioteca.prototype.dameLibroAleatorio = function() {
 
+    var seccionAleatoria = this.dameSeccionAleatoria();
+
+    var indiceAleatorioLib = generarNumeroAleatorio(0, seccionAleatoria._libros.length - 1);
+    var libro = seccionAleatoria._libros[indiceAleatorioLib];
+    return libro;
+}
+
+Biblioteca.prototype.dameSeccionAleatoria = function() {
+
+    var seccionAleatoria = null;
+    var indiceAleatorio = generarNumeroAleatorio(0, this._secciones.length - 1);
+    seccionAleatoria = this._secciones[indiceAleatorio];
+    return seccionAleatoria;
+
+}
+
+Biblioteca.prototype.devolverLibro = function(libro) {
+
+    this.añadirLibro(libro);
+
+}
+
+Biblioteca.prototype.insertarLibroNuevo = function(titulo) {
+
+
+    indiceAleatorio = generarNumeroAleatorio(0, this._secciones.length - 1);
+    var seccionAleatoria = this._secciones[indiceAleatorio]._nombre;
+    var libro = new Libro(seccionAleatoria, titulo);
+
+    this.añadirLibro(libro);
+    return true;
+}
+
+
+Biblioteca.prototype.añadirLibro = function(libro) {
+
+    var tematicaLibro = libro._tematica;
+
+
+    for (indice in this._secciones) {
+        var seccion = this._secciones[indice]._nombre;
+        if (tematicaLibro == seccion) {
+
+            this._secciones[indice]._libros.push(libro);
+        }
+
+    }
+
+}
+
+
+Biblioteca.prototype.inicializarBiblioteca = function() {
+
+    this._secciones.push(new Seccion("Amor"));
+    this._secciones.push(new Seccion("Aventuras"));
+    this._secciones.push(new Seccion("Naturaleza"));
+    this._secciones.push(new Seccion("Historia"));
+    this._secciones.push(new Seccion("Viajes"));
+
+    this.insertarLibrosNuevos();
+    this.insertarSociosAleatoriamente(100);
+
+}
+
+
+Biblioteca.prototype.insertarSociosAleatoriamente = function(numeroSocios) {
+    for (var i = 0; i < numeroSocios; i++) {
+        var socio = new Socio(i);
+        this._socios.push(socio);
+
+    }
+
+}
+
+Biblioteca.prototype.insertarLibrosNuevos = function() {
+
+    for (var i = 0; i < 1000; i++) {
+
+        this.insertarLibroNuevo("Titulo" + i);
+
+    }
+
+
+}
+
+Biblioteca.prototype.sacarLibro = function(libro) {
+
+    var libroPrestado = libro;
+
+    for (indiceSeccion in this._secciones) {
+        var seccion = this._secciones[indiceSeccion];
+        for (indiceLibro in seccion._libros) {
+            var libroEncontrado = seccion._libros[indiceLibro];
+
+            if (libroEncontrado._nombre == libroPrestado._nombre) {
+
+                seccion._libros.splice(indiceLibro, 1);
+            }
+
+        }
+    }
+
+}
+
+Biblioteca.prototype.dameSocioAleatorio = function() {
+
+    var indiceSocioAleatorio = generarNumeroAleatorio(0, this._socios.length - 1);
+    var socioAleatorio = this._socios[indiceSocioAleatorio];
+    return socioAleatorio;
+}
+
+Biblioteca.prototype.ejecutarCiclo = function() {
+
+    for (var i = 0; i <= this._socios.length - 1; i++) {
+        socio = this._socios[i];
+        var ref = this;
+        socio.ejecutarCiclo(this);
+        var totalLibros = 0;
+        console.clear();
+
+        console.log("Biblioteca Municipal: " + this._nombre);
+        for (indice in this._secciones) {
+            var seccion = this._secciones[indice];
+            totalLibros = totalLibros + seccion._libros.length;
+
+            console.log("Sección " + seccion._nombre + "\n Numero de Libros: " + seccion._libros.length);
+
+        }
+        console.log("Total de libros en la biblioteca: " + totalLibros);
+        var librosPrestados = 1000 - totalLibros;
+        console.log("Total de libros prestados: " + librosPrestados);
+        console.log("\n");
+    }
+    setInterval(function() { ref.ejecutarCiclo(); }, 5000);
+}
+
+function Socio(numeroDeSocio) {
+    this._nombre = generarNombreSocioAleatorio();
+    this._numeroDeSocio = numeroDeSocio;
+    this._libros = [];
+}
+
+
+Socio.prototype.ejecutarCiclo = function(miBiblioteca) {
+
+    for (indice in this._libros) {
+
+        libro = this._libros[indice];
+
+        miBiblioteca.devolverLibro(libro);
+    }
+
+    this._libros = [];
+
+    var numeroLibrosAPrestar = generarNumeroAleatorio(1, 3);
+    for (var i = 1; i <= numeroLibrosAPrestar; i++) {
+        var libro = miBiblioteca.dameLibroAleatorio();
+        socio._libros.push(libro);
+        miBiblioteca.sacarLibro(libro);
+    }
+}
+
+biblioteca = new Biblioteca("Biblioteca Bogotá");
 biblioteca.inicializarBiblioteca();
-
-seccion.añadirLibro(1000);
-
-biblioteca.insertarSociosAleatoriamente(100);
+biblioteca.ejecutarCiclo();
