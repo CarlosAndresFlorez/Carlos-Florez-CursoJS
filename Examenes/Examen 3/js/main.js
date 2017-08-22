@@ -7,7 +7,7 @@ class MainController {
         this._apiClient = new ApiClient();
 
         this._divAlmacenPokemon = null;
-        this._almacenPokemones = new AlmacenPokemones(this);
+        this._pokedex = new Pokedex(this);
         this._pokemonesApiClient = new PokemonesApiClient(this._apiClient);
 
         this._divAlmacenDetalles = null;
@@ -23,7 +23,7 @@ class MainController {
     init() {
 
         this.pintarEstructuraGeneral();
-        this._almacenPokemones.init(this._divAlmacenPokemones, this._pokemonesApiClient);
+        this._pokedex.init(this._divPokedex, this._pokemonesApiClient);
         this._almacenDetalles.init(this._divAlmacenDetalles, this._detallesApiClient);
 
     }
@@ -34,9 +34,9 @@ class MainController {
         this._container.className = "container";
         document.body.appendChild(this._container);
 
-        this._divAlmacenPokemones = document.createElement("div");
-        this._divAlmacenPokemones.className = "almacen-Pokemones";
-        this._container.appendChild(this._divAlmacenPokemones);
+        this._divPokedex = document.createElement("div");
+        this._divPokedex.className = "almacen-Pokemones";
+        this._container.appendChild(this._divPokedex);
 
         this._divAlmacenDetalles = document.createElement("div");
         this._divAlmacenDetalles.className = "almacen-Posts";
@@ -57,12 +57,12 @@ class Pokemon {
     }
 }
 
-class AlmacenPokemones {
+class Pokedex {
 
     constructor(mc) {
         this._pokemones = [];
-        this._paginaActual = 0;
-        this._numeroTotalDePokemones = null;
+        this._paginaActual = 1;
+        this._numeroTotalDePokemones = 0;
         this._contenedorHtml = null;
         this._pokemonesApiClient = null;
         this._mainControler = mc;
@@ -73,25 +73,18 @@ class AlmacenPokemones {
         this._contenedorHtml = contenedorHtml;
         this._pokemonesApiClient = pokemonesApiClient;
         this.pintarEstructuraPokemones();
-        this.getAllPokemonesAndPaint();
+        this.getAllPokemonesAndPaint(this.calcularOffset(this._paginaActual));
     }
 
-    getAllPokemonesAndPaint() {
-        this._pokemonesApiClient.getPokemonesAtPage("http://pokeapi.co/api/v2/pokemon/?offset=1").then((data) => {
+    calcularOffset() {
+
+        return (this._paginaActual - 1) * 20;
+    }
+
+    getAllPokemonesAndPaint(offset) {
+        this._pokemonesApiClient.getPokemonesAtPage(offset).then((data) => {
             this.paintAllPokemones(data);
 
-        });
-    }
-
-    getAllPokemonesAndPaintADelante(indice) {
-        this._pokemonesApiClient.getPokemonesAtPage(indice).then((data) => {
-            this.paintAllPokemones(data, this._pokemonesApiClient);
-        });
-    }
-
-    getAllPokemonesAndPaintAtras(indice) {
-        this._pokemonesApiClient.getPokemonesAtPage(indice).then((data) => {
-            this.paintAllPokemones(data, this._pokemonesApiClient);
         });
     }
 
@@ -100,26 +93,30 @@ class AlmacenPokemones {
         let tbody = this._contenedorHtml.querySelector("tbody");
         tbody.innerHTML = "";
 
-        for (let i = 0; i < data.length; i++) {
-            let pokemon = data[i];
+        for (let i = 0; i < data.pokemones.length; i++) {
+            let pokemon = data.pokemones[i];
             let row = this.getRowForPokemon(pokemon);
             tbody.appendChild(row);
         }
+
+        let span = this._contenedorHtml.querySelector("span");
+        span.textContent = "Página " + this._paginaActual;
+        this._numeroTotalDePokemones = data.numPokemons;
     }
 
     pintarEstructuraPokemones() {
 
         let estructura = `    
-                    <h1 class="main-title">POKEMONES</h1>
-
+                    <h2 class="main-title">POKEMONES</h2>
+                    <div id="div">
+                    </div>
                     <form class="form-inline">
 
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>NOMBRE</th>
-                                    <th>DETALLE</th>
-                                    
+                                    <th>DETALLE</th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,28 +125,42 @@ class AlmacenPokemones {
 
         this._contenedorHtml.innerHTML = estructura;
 
-        let h1 = this._contenedorHtml.querySelector("h1");
+        let div = this._contenedorHtml.querySelector("#div");
         let atras = document.createElement("button");
         atras.setAttribute("type", "button");
         atras.innerHTML = "Atras";
-        h1.appendChild(atras);
+        div.appendChild(atras);
+        let span = document.createElement("span");
+        div.appendChild(span);
+        atras.addEventListener("click", () => {
+            this.getAllPokemonesAtras();
+
+        });
 
         let siguiente = document.createElement("button");
         siguiente.setAttribute("type", "button");
         siguiente.innerHTML = "Siguiente";
 
-        h1.appendChild(siguiente);
-
-        //prueba
-        let url = "http://pokeapi.co/api/v2/pokemon/?offset=";
-     
-        let siguienteUrl= url +this._paginaActual;
-
+        div.appendChild(siguiente);
         siguiente.addEventListener("click", () => {
-            this.getAllPokemonesAndPaintADelante(siguienteUrl)
-                this._paginaActual=this._paginaActual+1;
+            this.getAllPokemonesADelante();
         });
+    }
 
+    getAllPokemonesADelante() {
+
+        if (this._paginaActual < (this._numeroTotalDePokemones / 20)) {
+            this._paginaActual += 1;
+            this.getAllPokemonesAndPaint(this.calcularOffset(this._paginaActual));
+        }
+    }
+
+    getAllPokemonesAtras() {
+
+        if (this._paginaActual > 1) {
+            this._paginaActual -= 1;
+            this.getAllPokemonesAndPaint(this.calcularOffset(this._paginaActual));
+        }
     }
 
     getRowForPokemon(pokemon) {
@@ -160,18 +171,10 @@ class AlmacenPokemones {
         td1.setAttribute("class", "hand");
         td1.innerHTML = pokemon._nombre;
         tr.appendChild(td1);
-
-        let td2 = document.createElement("td");
-        td2.setAttribute("class", "hand");
-        td2.innerHTML = pokemon._url;
-        tr.appendChild(td2);
-
         let button = document.createElement("button");
         button.setAttribute("type", "button");
         button.innerHTML = "Detalle";
-
         tr.appendChild(button);
-
         button.addEventListener("click", () => {
             this._mainControler.abrirDetalles(pokemon)
         });
@@ -194,7 +197,6 @@ class AlmacenDetalles {
         this._contenedorHtml = contenedorHtml;
         this._detallesApiClient = detallesApiClient;
         this.pintarEstructuraDetalles();
-
     }
 
     getAllDetallesAndPaint(pokemon, pokemonesApiClient) {
@@ -212,13 +214,12 @@ class AlmacenDetalles {
         let pokemon = data;
         let row = this.getRowForDetalles(pokemon);
         tbody.appendChild(row);
-
     }
 
     pintarEstructuraDetalles() {
 
         let estructura = `    
-                    <h1 class="main-title">DETALLES</h1>
+                    <h2 class="main-title">DETALLES</h2>
 
                     <form class="form-inline">
 
@@ -228,7 +229,6 @@ class AlmacenDetalles {
                                     <th>NOMBRE</th>
                                     <th>PESO</th>
                                     <th>ALTURA</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>

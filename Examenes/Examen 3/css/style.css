@@ -5,14 +5,38 @@
 .form-title {
     margin-top: 0px;
     margin-bottom: 20px;
-} 
+}
 
-.hand:hover{
-	cursor: pointer;
+.hand:hover {
+    cursor: pointer;
 }
 
 table {
-   border-collapse: separate;
-   border-spacing: 5px;
-   color:black;
+    border-collapse: separate;
+    border-spacing: 5px;
+    color: black;
+    width: 50% !important;
+    margin-left: 25%;
+    font-size: 25px;
+}
+
+body {
+
+    background-image: url('../images/giphy.gif');
+
+}
+
+table button {
+
+    margin-left: 38%
+}
+
+#div {
+
+    margin-left: 45%;
+}
+
+h2 {
+
+    margin-left: 45%;
 }

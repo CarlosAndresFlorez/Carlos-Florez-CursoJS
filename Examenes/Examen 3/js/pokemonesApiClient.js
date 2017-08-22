@@ -1,7 +1,7 @@
 class PokemonesApiClient {
 
     constructor(apiClient) {
-        this._baseURL = "http://pokeapi.co/api/v2/pokemon/?offset=0";
+        this._baseURL = "http://pokeapi.co/api/v2/pokemon/?offset=";
         this._apliClient = apiClient;
 
     }
@@ -9,12 +9,19 @@ class PokemonesApiClient {
     getPokemonesAtPage(indice) {
 
 
-        this._baseURL=indice;
-        let promise = this._apliClient.get(this._baseURL, null);
+        let URLCompleta=this._baseURL+indice;
+
+        
+        let promise = this._apliClient.get(URLCompleta, null);
         let anotherPromise = promise.then((data) => {
             let resultados = data.results;
+            let pokedex= {
+                numPokemons:data.count,
+                pokemones:[]
+
+            }
             console.log(resultados);
-            let pokemones = [];
+           
             for (let i = 0; i < resultados.length; i++) {
                 let elemento = resultados[i];
                 let pokemon = new Pokemon(
@@ -22,10 +29,10 @@ class PokemonesApiClient {
                     elemento.url
                 );
 
-                pokemones.push(pokemon);
+                pokedex.pokemones.push(pokemon);
             }
 
-            return pokemones;
+            return pokedex;
         });
         return anotherPromise;
     }
