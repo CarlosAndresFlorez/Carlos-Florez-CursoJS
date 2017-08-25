@@ -17,9 +17,7 @@ class ComidaApiClient {
 
         };
         return comidaObject;
-
     }
-
     getAllComidas() {
 
         let completeUrl = this._baseURL;
@@ -65,7 +63,6 @@ class ComidaApiClient {
     editarComida(comida) {
 
         let comidaObject = this.mapeoObject(comida);
-
         let completeUrl = this._baseURL + "/" + comida._identificador;
         let promise = this._apliClient.put(completeUrl, comidaObject);
 
@@ -73,14 +70,13 @@ class ComidaApiClient {
             let usuarioObject = new Comida(data.id, data.tipo, data.precio, data.calorias, data.existencia, data.nombre);
 
             return true;
-
         });
 
         return anotherPromise;
     }
 
     deleteComida(comida) {
-         let comidaObject = this.mapeoObject(comida);
+        let comidaObject = this.mapeoObject(comida);
 
         let completeUrl = this._baseURL + "/" + comida._identificador;
         let promise = this._apliClient.delete(completeUrl, comidaObject);

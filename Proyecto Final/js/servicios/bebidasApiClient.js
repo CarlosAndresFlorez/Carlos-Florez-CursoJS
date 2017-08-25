@@ -16,11 +16,8 @@ class BebidaApiClient {
             existencias: bebida._existencias,
             nombre: bebida._nombre,
             precio: bebida._precio
-
         };
-
         return bebidaObject;
-
     }
 
     getAllBebidas() {
@@ -57,11 +54,8 @@ class BebidaApiClient {
         let anotherPromise = promise.then((data) => {
             let bebidaObject = new Bebida(data.id, data.grados, data.esAlcoholica, data.calorias, data.precio, data.existencia, data.nombre);
             return true;
-
         });
-
         return anotherPromise;
-
     }
 
     editarBebida(bebida) {
@@ -81,7 +75,5 @@ class BebidaApiClient {
         let promise = this._apliClient.delete(completeUrl, bebidaObject);
 
         return promise;
-
     }
-
 }

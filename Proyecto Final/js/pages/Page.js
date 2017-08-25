@@ -248,7 +248,6 @@ class Home extends InnerPage {
                 if (comida._tipo == "Principal") {
                     principales = comida._existencias + principales;
                 }
-
             }
             console.log("Postres: " + postres);
             console.log("Entrantes " + entrantes);

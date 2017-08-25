@@ -20,49 +20,49 @@ class Page3 extends InnerPage {
 
 <table class="table table-striped table-bordered">
 
-                                <div class="well" id="aqui">
-                <form class="form-horizontal">
+    <div class="well" id="aqui">
+        <form class="form-horizontal">
 
-                    <div >
+            <div>
 
-                    <div class="form-group">
-                        <label for="Nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
-                    </div>
-                    <div class="form-group">
-                        <label for="Apellidos">Apellidos</label>
-                        <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
-                    </div>
-                    <div class="form-group">
-                        <label for="UserName">UserName</label>
-                        <input type="text" class="form-control" id="username" placeholder="UserName">
-                    </div>
+                <div class="form-group">
+                    <label for="Nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="Apellidos">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
+                </div>
+                <div class="form-group">
+                    <label for="UserName">UserName</label>
+                    <input type="text" class="form-control" id="username" placeholder="UserName">
+                </div>
 
-                     <div class="form-group">
-                        <label for="Email">Email</label>
-                        <input type="text" class="form-control" id="email" placeholder="Email">
-                    </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="text" class="form-control" id="email" placeholder="Email">
+                </div>
 
-                     
-                    </div>
-                    
-                    <button type="button" id="guardar" class="btn btn-warning" style="visibility:hidden">Guardar</button>
-                 
-                    
-                </form>
 
-                                    <thead>    
-                                     <tr>
-                            
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>UserName</th>
-                            <th>Email</th>
-                             </tr>              
-                             </thead>
-                  <tbody>                  
-                </tbody>
-            </table>`;
+            </div>
+
+            <button type="button" id="guardar" class="btn btn-warning" style="visibility:hidden">Guardar</button>
+
+
+        </form>
+
+        <thead>
+            <tr>
+
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>UserName</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+</table>`;
 
         let div = document.createElement("div");
         div.innerHTML = estructura;

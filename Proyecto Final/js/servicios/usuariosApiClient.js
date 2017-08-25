@@ -5,6 +5,20 @@ class UsuarioApiClient {
         this._apliClient = apiClient;
     }
 
+
+    newUsuario(elemento){
+
+         let usuario = new Usuario(
+                elemento.nombre,
+                elemento.apellidos,
+                elemento.username,
+                elemento.email,
+                elemento.password,
+                elemento._id
+            );
+         return usuario;    
+    }
+
     login(user) {
 
         let completeUrl = this._baseURL + "/login";
@@ -17,16 +31,7 @@ class UsuarioApiClient {
         let promise = this._apliClient.post(completeUrl, usuario);
         
         let anotherPromise = promise.then((elemento) => {
-            let usuario = new Usuario(
-                elemento.nombre,
-                elemento.apellidos,
-                elemento.username,
-                elemento.email,
-                elemento.password,
-                elemento._id
-            );
-
-
+           let usuario= this.newUsuario(elemento);
             return usuario;
         });
 
@@ -41,14 +46,7 @@ class UsuarioApiClient {
             let usuarios = [];
             for (let i = 0; i < data.length; i++) {
                 let elemento = data[i];
-                let usuario = new Usuario(
-                    elemento.nombre,
-                    elemento.apellidos,
-                    elemento.username,
-                    elemento.email,
-                    elemento.password,
-                    elemento._id
-                );
+                let usuario= this.newUsuario(data);
 
                 usuarios.push(usuario);
             }
@@ -65,15 +63,7 @@ class UsuarioApiClient {
         let anotherPromise = promise.then((elemento) => {
 
             // nombre, apellidos, username, email, password, identificador
-            let usuario = new Usuario(
-                elemento.nombre,
-                elemento.apellidos,
-                elemento.username,
-                elemento.email,
-                elemento.password,
-                elemento._id
-            );
-
+             let usuario= this.newUsuario(elemento);
             return usuario;
         });
         return anotherPromise;
@@ -97,20 +87,13 @@ class UsuarioApiClient {
         //el post como respuesta devuelve una promesa,
         //Cuando esa promesa se cumple(se crea objeto) mapea el usuario creado a los nombres originales de las propiedades.
         let anotherPromise = promise.then((elemento) => {
-            let usuario = new Usuario(
-                elemento.nombre,
-                elemento.apellidos,
-                elemento.username,
-                elemento.email,
-                elemento.password,
-                elemento._id
-            );
-
+            let usuario= this.newUsuario(elemento);
             return true;
 
         });
 
         return anotherPromise;
+
     }
 
     editarUsuario(usuario,pass) {
@@ -129,14 +112,7 @@ class UsuarioApiClient {
         let promise = this._apliClient.put(completeUrl, usuarioObject);
 
         let anotherPromise = promise.then((elemento) => {
-            let usuario = new Usuario(
-                elemento.nombre,
-                elemento.apellidos,
-                elemento.username,
-                elemento.email,
-                elemento.password,
-                elemento._id
-            );
+            let usuario= this.newUsuario(elemento);
 
             return usuario;
         });
@@ -159,14 +135,7 @@ class UsuarioApiClient {
         let promise = this._apliClient.delete(completeUrl, usuarioObject);
 
         let anotherPromise = promise.then((elemento) => {
-            let usuario = new Usuario(
-                elemento.nombre,
-                elemento.apellidos,
-                elemento.username,
-                elemento.email,
-                elemento.password,
-                elemento._id
-            );
+            let usuario= this.newUsuario(elemento);
 
             return true;
 
