@@ -1,0 +1,25 @@
+{
+  "name": "pruebanpm",
+  "version": "1.0.0",
+  "description": "Prueba para apredner NPM",
+  "main": "index.js",
+  "config": {
+    "port": "8080"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "prueba",
+    "npm",
+    "curso"
+  ],
+  "author": "Carlos",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "express": "^4.15.4",
+    "highcharts": "^5.0.14"
+  }
+}

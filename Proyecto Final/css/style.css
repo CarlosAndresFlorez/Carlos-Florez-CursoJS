@@ -1,0 +1,44 @@
+.main-title {
+    margin-bottom: 30px
+}
+
+.form-title {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+
+.container {
+
+    text-align: center;
+}
+
+#footer {
+    
+    bottom: 0;
+    width: 100%;
+    height: 205px;
+}
+
+body {
+    background-color: #2196F3;
+}
+
+table {
+
+
+    background-color: grey;
+}
+
+div.loading{
+
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background-image: url("../images/image1.gif");
+	background-size: cover;
+	z-index: 10;
+
+}
