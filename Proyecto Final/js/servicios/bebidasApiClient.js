@@ -6,6 +6,23 @@ class BebidaApiClient {
 
     }
 
+    mapeoObject(bebida) {
+
+        let bebidaObject = {
+            _id: bebida._identificador,
+            grados: bebida._grados,
+            esAlcoholica: bebida._esAlcoholica,
+            calorias: bebida._calorias,
+            existencias: bebida._existencias,
+            nombre: bebida._nombre,
+            precio: bebida._precio
+
+        };
+
+        return bebidaObject;
+
+    }
+
     getAllBebidas() {
 
         let completeUrl = this._baseURL;
@@ -22,7 +39,6 @@ class BebidaApiClient {
                     elemento.calorias,
                     elemento.existencias,
                     elemento.nombre
-
                 );
 
                 bebidas.push(bebida);
@@ -36,25 +52,10 @@ class BebidaApiClient {
     createBebida(bebida) {
 
         let completeUrl = this._baseURL;
-
-        let bebidaObject = {
-            _id: bebida._identificador,
-            grados: bebida._grados,
-            esAlcoholica: bebida._esAlcoholica,
-            calorias: bebida._calorias,
-            existencias: bebida._existencias,
-            nombre: bebida._nombre,
-            precio: bebida._precio
-
-        };
-
+        let bebidaObject = this.mapeoObject(bebida);
         let promise = this._apliClient.post(completeUrl, bebidaObject);
-
-        //el post como respuesta devuelve una promesa,
-        //Cuando esa promesa se cumple(se crea objeto) mapea el usuario creado a los nombres originales de las propiedades.
         let anotherPromise = promise.then((data) => {
             let bebidaObject = new Bebida(data.id, data.grados, data.esAlcoholica, data.calorias, data.precio, data.existencia, data.nombre);
-
             return true;
 
         });
@@ -64,43 +65,18 @@ class BebidaApiClient {
     }
 
     editarBebida(bebida) {
-
-        let bebidaObject = {
-            _id: bebida._identificador,
-            grados: bebida._grados,
-            esAlcoholica: bebida._esAlcoholica,
-            calorias: bebida._calorias,
-            existencias: bebida._existencias,
-            nombre: bebida._nombre,
-            precio: bebida._precio
-
-        };
-
+        let bebidaObject = this.mapeoObject(bebida);
         let completeUrl = this._baseURL + "/" + bebida._identificador;
         let promise = this._apliClient.put(completeUrl, bebidaObject);
-
         let anotherPromise = promise.then((data) => {
             let bebida = new Bebida(data.id, data.grados, data.esAlcoholica, data.precio, data.calorias, data.existencia, data.nombre);
-
             return true;
-
         });
-
         return anotherPromise;
     }
 
     deleteBebida(bebida) {
-        let bebidaObject = {
-            _id: bebida._identificador,
-            grados: bebida._grados,
-            esAlcoholica: bebida._esAlcoholica,
-            calorias: bebida._calorias,
-            existencias: bebida._existencias,
-            nombre: bebida._nombre,
-            precio: bebida._precio
-
-        };
-
+        let bebidaObject = this.mapeoObject(bebida);
         let completeUrl = this._baseURL + "/" + bebida._identificador;
         let promise = this._apliClient.delete(completeUrl, bebidaObject);
 

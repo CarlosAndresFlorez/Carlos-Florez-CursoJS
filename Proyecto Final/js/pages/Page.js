@@ -196,8 +196,11 @@ class InnerPage extends Page {
 
     pintarFooter(container) {
         this._container = container;
+        
+
         let estructura = `  
-        <div id="footer">        
+        <div id="footer">  
+             
         </div>
         `
         let div = document.createElement("div");

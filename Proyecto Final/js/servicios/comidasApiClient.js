@@ -3,7 +3,22 @@ class ComidaApiClient {
     constructor(apiClient) {
         this._baseURL = "http://formacion-indra-franlindebl.com/api/comidas";
         this._apliClient = apiClient;
-    }    
+    }
+
+    mapeoObject(comida) {
+
+        let comidaObject = {
+            _id: comida._id,
+            tipo: comida._tipo,
+            precio: comida._precio,
+            calorias: comida._calorias,
+            existencias: comida._existencias,
+            nombre: comida._nombre
+
+        };
+        return comidaObject;
+
+    }
 
     getAllComidas() {
 
@@ -20,11 +35,11 @@ class ComidaApiClient {
                     elemento.calorias,
                     elemento.existencias,
                     elemento.nombre
-                    
+
                 );
 
                 comidas.push(comida);
-                }
+            }
 
             return comidas;
         });
@@ -33,23 +48,9 @@ class ComidaApiClient {
 
     createComida(comida) {
 
-      
         let completeUrl = this._baseURL;
-
-          let objectComida={
-            _id: comida._id,
-            tipo: comida._tipo,
-            precio: comida._precio,
-            calorias: comida._calorias,
-            existencias: comida._existencias,
-            nombre: comida._nombre
-        }
-
-
-         let promise = this._apliClient.post(completeUrl, objectComida);
-
-        //el post como respuesta devuelve una promesa,
-        //Cuando esa promesa se cumple(se crea objeto) mapea el usuario creado a los nombres originales de las propiedades.
+        let objectComida = this.mapeoObject(comida);
+        let promise = this._apliClient.post(completeUrl, objectComida);
         let anotherPromise = promise.then((data) => {
             let comida = new Comida(data._id, data.tipo, data.precio, data.calorias, data.existencias, data.nombre);
 
@@ -63,21 +64,13 @@ class ComidaApiClient {
 
     editarComida(comida) {
 
-        let comidaObject = {
-            _id: comida._id,
-            tipo: comida._tipo,
-            precio: comida._precio,
-            calorias: comida._calorias,
-            existencias: comida._existencias,
-            nombre: comida._nombre
-
-        };
+        let comidaObject = this.mapeoObject(comida);
 
         let completeUrl = this._baseURL + "/" + comida._identificador;
         let promise = this._apliClient.put(completeUrl, comidaObject);
 
         let anotherPromise = promise.then((data) => {
-            let usuarioObject = new Comida(data.id, data.tipo, data.precio, data.calorias, data.existencia,data.nombre);
+            let usuarioObject = new Comida(data.id, data.tipo, data.precio, data.calorias, data.existencia, data.nombre);
 
             return true;
 
@@ -87,15 +80,7 @@ class ComidaApiClient {
     }
 
     deleteComida(comida) {
-       let comidaObject = {
-            _id: comida._id,
-            tipo: comida._tipo,
-            precio: comida._precio,
-            calorias: comida._calorias,
-            existencias: comida._existencias,
-            nombre: comida._nombre
-
-        };
+         let comidaObject = this.mapeoObject(comida);
 
         let completeUrl = this._baseURL + "/" + comida._identificador;
         let promise = this._apliClient.delete(completeUrl, comidaObject);
